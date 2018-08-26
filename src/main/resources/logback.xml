@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <target>System.out</target>
+    <encoder>
+      <!--<pattern>%gray(%date{"yyyy-MM-dd'T'HH:mm:ss.SSSXXX"}) %highlight(%-5level) %cyan(%logger{1}) %magenta(%X{debugId}) %gray(%msg%n)</pattern>-->
+      <pattern>%gray(%date{HH:mm:ss.SSS, Asia/Shanghai}) %highlight(%-5level) %cyan(%logger{1}) L%L - %gray(%msg%n)</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/promethus-demo.log</file>
+    <level>INFO</level>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>logs/promethus-demo.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+      <maxHistory>60</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%date{"yyyy-MM-dd'T'HH:mm:ss.SSS", Asia/Shanghai} %-5level %logger{1} L%L - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="slick" level="INFO"/>
+  <logger name="com.zaxxer.hikari" level="INFO"/>
+  <logger name="org.apache.kafka" level="WARN"/>
+  <logger name="redis" level="ERROR"/>
+  <logger name="akka" level="INFO"/>    
+  <logger name="org.apache.commons" level="INFO"/>
+  <logger name="com.ag.game.quiz.database.PgProfileAPI" level="WARN"/>
+  <!--<logger name="slick.jdbc.JdbcBackend.statement" level="DEBUG" />-->
+  <!--<logger name="slick.jdbc.JdbcBackend.parameter" level="DEBUG" />-->
+
+  
+  <root level="${akka.loglevel:-DEBUG}">
+    <appender-ref ref="ROLLING_FILE"/>
+    <appender-ref ref="CONSOLE"/>
+  </root>
+
+</configuration>
